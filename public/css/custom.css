@@ -1,0 +1,55 @@
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: #3f6485 !important;
+}
+
+a.btn.btn-info.btn-sm {
+    color: white;
+    background: #3f6485;
+    border: none;
+}
+
+button.btn.btn-success.mt-3 {
+    background: #2f6049e3;
+}
+
+.form-check-input:checked {
+    background-color: #2f6049e3;
+    border-color: #2f6049e3;
+}
+
+a.btn.btn-primary.btn1 {
+    background: #4f4fbb;
+    border: none;
+}
+
+a.btn.btn-primary.btn2 {
+    background: #4f68bb;
+    border: none;
+}
+
+a.btn.btn.btn-primary.btn3 {
+    background: #a7bb4f;
+    border: none;
+
+}
+
+a.btn.btn.btn-primary.btn4 {
+    background: #427f89;
+    border: none;
+
+}
+
+a.btn.btn.btn-primary.btn5 {
+    background: #428070;
+    border: none;
+}
+
+.bg-success {
+    --bs-bg-opacity: 1;
+    background-color: rgb(47 108 80 / 91%) !important;
+}
+.bg-warning {
+    --bs-bg-opacity: 1;
+    background-color: rgb(73 161 190) !important;
+}
