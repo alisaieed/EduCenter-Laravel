@@ -85,7 +85,7 @@
             datasets: [{
                 label: 'Students Enrolled',
                 data: @json($recentEnrollments->pluck('students')->map->count()),
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                backgroundColor: '#CAA8F5',
             }]
         }
     });

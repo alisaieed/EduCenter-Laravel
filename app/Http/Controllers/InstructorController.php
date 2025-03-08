@@ -8,11 +8,77 @@ use Illuminate\Http\Request;
 
 class InstructorController extends Controller
 {
-    public function index()
+
+    public function assignCourse(Request $request, Instructor $instructor)
     {
-        $instructors = Instructor::all();
-        return view('instructors.index', compact('instructors'));
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        if (!$instructor->courses()->where('courses.id', $request->course_id)->exists()) {
+            $instructor->courses()->attach($request->course_id);
+        }
+
+        return redirect()->back()->with('success', 'Instructor assigned to course successfully.');
     }
+
+    public function unassignCourse(Instructor $instructor, $course_id)
+    {         
+    $instructor->courses()->detach($course_id);
+    return redirect()->back()->with('success', 'Instructor removed from course.');
+    }
+
+
+    public function assignDepartment(Request $request, Instructor $instructor)
+    {
+        $request->validate([
+            'department_id' => 'required|exists:departments,id',
+        ]);
+    
+        // Avoid duplicate assignment (Fixed the ambiguous column issue)
+        if (!$instructor->departments()->where('departments.id', $request->department_id)->exists()) {
+            $instructor->departments()->attach($request->department_id);
+        }
+    
+        return redirect()->back()->with('success', 'Instructor assigned to department successfully.');
+    }
+
+
+
+    public function index(Request $request)
+    {
+        $query = Instructor::query();
+    
+        // Search functionality
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%")
+                  ->orWhereHas('courses', function($q) use ($search) {
+                      $q->where('name', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
+    
+        // Department filter functionality
+        if ($request->has('department') && !empty($request->department)) {
+            $departmentId = $request->input('department');
+            $query->whereHas('departments', function($q) use ($departmentId) {
+                $q->where('departments.id', $departmentId);  // Specify table name for the ID
+            });
+        }
+    
+        $instructors = $query->with(['departments', 'courses'])->paginate(10);
+    
+        // Get all departments for the filter dropdown
+        $departments = Department::all();
+    
+        return view('instructors.index', compact('instructors', 'departments'));
+    }
+    
+    
+    
 
     public function create()
     {

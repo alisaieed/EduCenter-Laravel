@@ -1,34 +1,76 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Edit Department</h1>
-    <form action="{{ route('departments.update', $department->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="form-group">
-            <label for="name">Department Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $department->name }}" required>
-        </div>
-        <div class="form-group">
-            <label for="head_instructor_id">Head Instructor</label>
-            <select name="head_instructor_id" id="head_instructor_id" class="form-control">
-                <option value="">Select Head Instructor</option>
-                @foreach ($instructors as $instructor)
-                    <option value="{{ $instructor->id }}" 
-                        {{ $department->head_instructor_id == $instructor->id ? 'selected' : '' }}>
-                        {{ $instructor->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <h3>Instructors in this Department:</h3>
-        @foreach ($instructors as $instructor)
-            <div class="form-check">
-                <input type="checkbox" name="instructors[]" value="{{ $instructor->id }}" 
-                    {{ $department->instructors->contains($instructor->id) ? 'checked' : '' }}>
-                <label for="instructor_{{ $instructor->id }}" class="form-check-label">{{ $instructor->name }}</label>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h2>Department Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h4><strong>Department Name:</strong> {{ $department->name }}</h4>
+                            <p><strong>Code:</strong> {{ $department->code }}</p>
+                            <p><strong>Description:</strong> {{ $department->description }}</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4><strong>Head of Department:</strong> {{ $department->headOfDepartment->name ?? 'N/A' }}</h4>
+                            @if ($department->headOfDepartment)
+                                <p><strong>Email:</strong> {{ $department->headOfDepartment->email }}</p>
+                                <p><strong>Phone:</strong> {{ $department->headOfDepartment->phone ?? 'N/A' }}</p>
+                            @endif
+                        </div>
+
+                        <div class="mb-4">
+                            <h4><strong>Instructors:</strong></h4>
+                            <ul class="list-group">
+                                @forelse($department->instructors as $instructor)
+                                    <li class="list-group-item">
+                                        <strong>{{ $instructor->name }}</strong>
+                                        <p>Email: {{ $instructor->email }}</p>
+                                    </li>
+                                @empty
+                                    <p>No instructors assigned to this department.</p>
+                                @endforelse
+                            </ul>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-warning">Edit Department</a>
+                            <a href="{{ route('departments.index') }}" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        @endforeach
-        <button type="submit" class="btn btn-success">Update</button>
-    </form>
+        </div>
+    </div>
 @endsection
+
+@push('styles')
+    <style>
+        .card-header {
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            background-color: #f9f9f9;
+        }
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .list-group-item {
+            border: none;
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+        }
+    </style>
+@endpush

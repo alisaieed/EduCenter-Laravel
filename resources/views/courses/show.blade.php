@@ -4,26 +4,29 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
+                <div class="card shadow-lg border-light">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h2>Course Details</h2>
                     </div>
                     <div class="card-body">
                         <!-- Course Details -->
-                        <div class="row mb-3">
+                        <div class="row mb-4">
                             <div class="col-md-6">
-                                <p><strong>Name:</strong> {{ $course->name }}</p>
+                                <p><strong>Name:</strong> <span class="text-muted">{{ $course->name }}</span></p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Description:</strong> {{ $course->description }}</p>
+                                <p><strong>Cost:</strong> <span class="text-muted">{{ $course->cost }}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Description:</strong> <span class="text-muted">{{ $course->description }}</span></p>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-4">
                             <div class="col-md-6">
-                                <p><strong>Start Date:</strong> {{ \Carbon\Carbon::parse($course->start_date)->format('d M, Y') }}</p>
+                                <p><strong>Start Date:</strong> <span class="text-muted">{{ \Carbon\Carbon::parse($course->start_date)->format('d M, Y') }}</span></p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>End Date:</strong> {{ \Carbon\Carbon::parse($course->end_date)->format('d M, Y') }}</p>
+                                <p><strong>End Date:</strong> <span class="text-muted">{{ \Carbon\Carbon::parse($course->end_date)->format('d M, Y') }}</span></p>
                             </div>
                         </div>
 
@@ -53,19 +56,27 @@
 
                         <!-- Students Enrolled -->
                         <h4 class="mb-3">Students Enrolled</h4>
-                        <ul class="list-group">
+                        <ul class="list-group mb-4">
                             @foreach($course->students as $student)
                                 <li class="list-group-item">
                                     {{ $student->name }} <small class="text-muted">({{ $student->email }})</small>
                                 </li>
                             @endforeach
                         </ul>
+
+                        <!-- Edit Button -->
+                        <div class="d-flex justify-content-center">
+                            <a href="{{ route('courses.edit', $course->id) }}" class="button btn btn-warning btn-sm">
+                                Edit Course
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
 
 @push('styles')
     <style>

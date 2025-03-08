@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('department_instructor', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
-            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained()->onDelete('cascade'); // Link to Student
+            $table->decimal('amount', 10, 2); // Payment amount
+            $table->date('payment_date'); // Payment date
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('department_instructor');
+        Schema::dropIfExists('payments');
     }
 };

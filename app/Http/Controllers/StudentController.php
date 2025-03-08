@@ -9,21 +9,58 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
 
+    public function removeCourse($studentId, $courseId)
+    {
+        $student = Student::findOrFail($studentId);
+        $course = Course::findOrFail($courseId);
+
+        // Detach the course from the student
+        $student->courses()->detach($courseId);
+
+        $student->updateTotalCourseCost();
+
+        // Redirect back with a success message
+        return redirect()->route('students.show', $student->id)->with('success', 'Course removed successfully.');
+    }
+
+
     public function updateCourses(Request $request, $id)
     {
         $student = Student::findOrFail($id);
-        $student->courses()->sync($request->courses); // Sync selected courses
+        $student->courses()->attach($request->courses); // Add new courses without removing existing ones
+
+        $student->updateTotalCourseCost();
 
         return redirect()->route('students.show', $id)->with('success', 'Courses updated successfully');
     }
 
 
     // Show the list of students
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::all();
-        return view('students.index', compact('students'));
+        $query = Student::with('courses'); // Start the query
+    
+        // Search by name or email
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', "%{$request->search}%")
+                  ->orWhere('email', 'LIKE', "%{$request->search}%");
+            });
+        }
+    
+        // Filter by course
+        if ($request->has('course') && !empty($request->course)) {
+            $query->whereHas('courses', function ($q) use ($request) {
+                $q->where('courses.id', $request->course);
+            });
+        }
+    
+        $students = $query->get();
+        $courses = Course::all(); // Get all courses for filtering
+    
+        return view('students.index', compact('students', 'courses'));
     }
+    
 
     // Show the form to create a new student
     public function create()
@@ -62,7 +99,7 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $student = Student::findOrFail($id);
-    
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
@@ -75,6 +112,7 @@ class StudentController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'courses' => $request->courses  
         ]);
     
         // Sync courses (many-to-many relationship)

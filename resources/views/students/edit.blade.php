@@ -36,16 +36,6 @@
         <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ old('phone_number', $student->phone_number) }}" required>
     </div>
 
-
-    <h3>Register for Courses</h3>
-        @foreach($courses as $course)
-            <div class="form-check">
-                <input type="checkbox" name="courses[]" value="{{ $course->id }}" class="form-check-input"
-                    {{ $student->courses->contains($course->id) ? 'checked' : '' }}>
-                <label for="course_{{ $course->id }}" class="form-check-label">{{ $course->name }}</label>
-            </div>
-        @endforeach
-
-    <button type="submit" class="btn btn-primary">Update Student</button>
+    <button type="submit" class="btn btn-primary" style="padding: 10px 20px; margin: 15px;">Update Student</button>
 </form>
 @endsection

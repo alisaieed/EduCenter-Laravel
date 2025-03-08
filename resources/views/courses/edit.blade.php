@@ -11,6 +11,10 @@
             <label for="name">Course Name</label>
             <input type="text" name="name" id="name" class="form-control" value="{{ $course->name }}" required>
         </div>
+        <div class="form-group">
+            <label for="cost">Course Cost ($)</label>
+            <input type="number" step="0.01" class="form-control" name="cost" id="cost" value="{{ old('cost', $course->cost ?? '') }}" required>
+        </div>  
 
         <!-- Course Description Field -->
         <div class="form-group">

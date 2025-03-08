@@ -6,15 +6,34 @@ use App\Models\Instructor;
 use App\Models\Department;
 use App\Models\Certificate;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CourseController extends Controller
 {
     
-    public function index()
+// CoursesController.php
+
+
+    public function index(Request $request)
     {
-        $courses = Course::with('instructors')->get();
+        $courses = Course::query();
+
+        // Search by course name
+        if ($request->has('search') && $request->search != '') {
+            $courses->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by month
+        if ($request->has('month') && $request->month != '') {
+            $courses->whereMonth('start_date', $request->month);
+        }
+
+        // Get the filtered courses
+        $courses = $courses->get();
+
         return view('courses.index', compact('courses'));
     }
+
 
     public function create()
     {
@@ -30,6 +49,7 @@ class CourseController extends Controller
         // Validate incoming request data
         $request->validate([
             'name' => 'required',
+            'cost' => 'required',
             'description' => 'required',
             'department_id' => 'required|exists:departments,id',
             'instructor_ids' => 'required|array',
@@ -67,10 +87,13 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $course = Course::findOrFail($id);
-    
+        $student->updateTotalCourseCost(); // Update total cost
+        $student->getRemainingBalanceAttribute();
+        
         // Validate the data
         $request->validate([
             'name' => 'required',
+            'cost' => 'required',
             'description' => 'required',
             'department_id' => 'required|exists:departments,id',
             'instructors' => 'required|array',
@@ -82,6 +105,7 @@ class CourseController extends Controller
         // Update the course details
         $course->update([
             'name' => $request->name,
+            'cost' => $request->cost,
             'description' => $request->description,
             'instructors' => $request->instructors,
             'department_id' => $request->department_id,

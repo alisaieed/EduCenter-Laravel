@@ -1,3 +1,92 @@
+.row.mb-3 {
+    margin-bottom: 20px!important;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: #250a2d !important;
+}
+
+.card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center {
+    background: #250a2d !important;
+}
+
+.mb-3 {
+    margin-bottom: 0rem !important;
+}
+
+span.badge.bg-info-red {
+    background: #cf6f6f;
+}
+
+.card.bg-success.text-white {
+    --bs-bg-opacity: 1;
+    background-color: #156070 !important;
+    border: none;
+}
+
+.card.bg-warning.text-white {
+    --bs-bg-opacity: 1;
+    background-color: #272462 !important;
+    border: none;
+}
+
+.card.bg-primary.text-white {
+    --bs-bg-opacity: 1;
+    background-color: #CAA8F5 !important;
+    border: none;
+}
+
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.rounded {
+    background: #250a2d !important;
+}
+
+button.btn.btn-primary {
+    background: #3F054F;
+    border: none;
+}
+
+a.btn.btn-primary.mb-3 {
+    background: #156070;
+    border: none;
+}
+
+a.btn.btn-warning.btn-sm {
+    background: #83698b;
+    border: none;
+    color: white;
+}
+
+button.btn.btn-primary.mb-3 {
+    background: #156070;
+    border: none;
+}
+
+button.btn.btn-danger.btn-sm {
+    background: #cf7373;
+    border: none;
+    padding: 7px;
+}
+
+button.btn.btn-primary.btn-sm {
+    background: #272462;
+    border: none;
+}
+
+.bg-info {
+    font-weight: 700;
+    --bs-bg-opacity: 1;
+    background-color: #156070 !important;
+}
+
+@media print {
+    .btn, a { display: none !important; } /* Hide buttons in print mode */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid black; padding: 8px; text-align: left; }
+    th { background-color: #ddd; }
+}
+
+
 .bg-primary {
     --bs-bg-opacity: 1;
     background-color: #3f6485 !important;
@@ -7,6 +96,7 @@ a.btn.btn-info.btn-sm {
     color: white;
     background: #3f6485;
     border: none;
+    padding: 7px;
 }
 
 button.btn.btn-success.mt-3 {

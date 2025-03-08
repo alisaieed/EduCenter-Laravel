@@ -10,7 +10,7 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'department_id', 'start_date', 'end_date', 'certificate_id'];
+    protected $fillable = ['name', 'description', 'department_id', 'start_date', 'end_date', 'certificate_id', 'cost'];
 
     // Relationship with instructors
     public function instructors()
