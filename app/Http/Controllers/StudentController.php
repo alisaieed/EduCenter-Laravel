@@ -39,7 +39,7 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $query = Student::with('courses'); // Start the query
-    
+
         // Search by name or email
         if ($request->has('search') && !empty($request->search)) {
             $query->where(function ($q) use ($request) {
@@ -47,20 +47,20 @@ class StudentController extends Controller
                   ->orWhere('email', 'LIKE', "%{$request->search}%");
             });
         }
-    
+
         // Filter by course
         if ($request->has('course') && !empty($request->course)) {
             $query->whereHas('courses', function ($q) use ($request) {
                 $q->where('courses.id', $request->course);
             });
         }
-    
+
         $students = $query->get();
         $courses = Course::all(); // Get all courses for filtering
-    
+
         return view('students.index', compact('students', 'courses'));
     }
-    
+
 
     // Show the form to create a new student
     public function create()
@@ -84,7 +84,7 @@ class StudentController extends Controller
     {
         $student = Student::with('courses')->findOrFail($id);
         $courses = Course::all(); // Fetch all available courses
-    
+
         return view('students.show', compact('student', 'courses'));
     }
 
@@ -92,10 +92,10 @@ class StudentController extends Controller
     {
         $student = Student::with('courses')->findOrFail($id);
         $courses = Course::all(); // Fetch all available courses
-    
+
         return view('students.edit', compact('student', 'courses'));
     }
-    
+
     public function update(Request $request, $id)
     {
         $student = Student::findOrFail($id);
@@ -106,19 +106,19 @@ class StudentController extends Controller
             'phone' => 'nullable|string|max:20',
             'courses' => 'array|exists:courses,id', // Ensure selected courses exist
         ]);
-    
+
         // Update student details
         $student->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'courses' => $request->courses  
+            'courses' => $request->courses
         ]);
-    
+
         // Sync courses (many-to-many relationship)
         $student->courses()->sync($request->courses);
-    
+
         return redirect()->route('students.index')->with('success', 'Student updated successfully');
     }
-    
+
 }

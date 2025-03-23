@@ -19,11 +19,6 @@ return new class extends Migration {
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
         });
     }
-    
-    public function instructors()
-    {
-        return $this->belongsToMany(Instructor::class);
-    }
 
     public function down()
     {

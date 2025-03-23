@@ -4,7 +4,7 @@
     <h1>Departments</h1>
     <a href="{{ route('departments.create') }}" class="btn btn-primary mb-3">Create New Department</a>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Name</th>
@@ -16,7 +16,7 @@
             @foreach ($departments as $department)
                 <tr>
                     <td>{{ $department->name }}</td>
-                    <td>{{ $department->head_instructor->name ?? 'N/A' }}</td>
+                    <td>{{ $department->headinstructor->name ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('departments.show', $department->id) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-warning btn-sm">Edit</a>

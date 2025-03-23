@@ -32,7 +32,7 @@
     <!-- Print Button -->
     <button onclick="printTable()" class="btn btn-secondary mb-3">Print Table</button>
 
-    <table id="instructorsTable" class="table">
+    <table id="instructorsTable" class="table table-striped">
         <thead>
             <tr>
                 <th>Name</th>

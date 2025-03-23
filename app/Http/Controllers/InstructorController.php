@@ -23,7 +23,7 @@ class InstructorController extends Controller
     }
 
     public function unassignCourse(Instructor $instructor, $course_id)
-    {         
+    {
     $instructor->courses()->detach($course_id);
     return redirect()->back()->with('success', 'Instructor removed from course.');
     }
@@ -34,21 +34,30 @@ class InstructorController extends Controller
         $request->validate([
             'department_id' => 'required|exists:departments,id',
         ]);
-    
+
         // Avoid duplicate assignment (Fixed the ambiguous column issue)
         if (!$instructor->departments()->where('departments.id', $request->department_id)->exists()) {
             $instructor->departments()->attach($request->department_id);
         }
-    
+
         return redirect()->back()->with('success', 'Instructor assigned to department successfully.');
     }
 
+    public function unassignDepartment(Request $request, Instructor $instructor)
+    {
+        $request->validate([
+            'department_id' => 'required|exists:departments,id',
+        ]);
 
+        $instructor->departments()->detach($request->department_id);
+
+        return redirect()->back()->with('success', 'Instructor unassigned from department successfully.');
+    }
 
     public function index(Request $request)
     {
         $query = Instructor::query();
-    
+
         // Search functionality
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->input('search');
@@ -60,7 +69,7 @@ class InstructorController extends Controller
                   });
             });
         }
-    
+
         // Department filter functionality
         if ($request->has('department') && !empty($request->department)) {
             $departmentId = $request->input('department');
@@ -68,17 +77,17 @@ class InstructorController extends Controller
                 $q->where('departments.id', $departmentId);  // Specify table name for the ID
             });
         }
-    
+
         $instructors = $query->with(['departments', 'courses'])->paginate(10);
-    
+
         // Get all departments for the filter dropdown
         $departments = Department::all();
-    
+
         return view('instructors.index', compact('instructors', 'departments'));
     }
-    
-    
-    
+
+
+
 
     public function create()
     {
@@ -98,7 +107,7 @@ class InstructorController extends Controller
             'courses' => 'nullable|array',
             'courses.*' => 'exists:courses,id',  // Ensure courses exist in courses table
         ]);
-    
+
         // Store the instructor
         $instructor = Instructor::create([
             'name' => $validated['name'],
@@ -106,12 +115,12 @@ class InstructorController extends Controller
             'phone' => $validated['phone'],
             'department_id' => $validated['department_id'] ?? null,
         ]);
-    
+
         // Attach courses if selected
         if (isset($validated['courses'])) {
             $instructor->courses()->sync($validated['courses']);
         }
-    
+
         if ($request->has('departments')) {
             $instructor->departments()->attach($request->departments);
         }
@@ -129,7 +138,7 @@ class InstructorController extends Controller
     {
         $instructor = Instructor::with('departments')->findOrFail($id);        $departments = Department::all(); // Get all departments
         $courses = Course::all(); // Get all courses
-    
+
         return view('instructors.edit', compact('instructor', 'departments', 'courses'));
     }
 
@@ -143,11 +152,11 @@ class InstructorController extends Controller
             'departments' => 'array',
             'departments.*' => 'exists:departments,id',
         ]);
-    
+
         $instructor->update($request->only('name', 'email', 'phone'));
-    
+
         $instructor->departments()->sync($request->departments ?? []);
-    
+
         return redirect()->route('instructors.index')->with('success', 'Instructor updated successfully.');
     }
     public function destroy(Instructor $instructor)

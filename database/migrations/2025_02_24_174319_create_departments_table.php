@@ -17,11 +17,7 @@ return new class extends Migration {
             $table->foreign('head_instructor_id')->references('id')->on('instructors')->onDelete('set null');
         });
     }
-    // Define the relationship with Instructor
-    public function instructors()
-    {
-        return $this->belongsToMany(Instructor::class);
-    }
+
     public function down()
     {
         Schema::dropIfExists('departments');

@@ -15,19 +15,10 @@ return new class extends Migration {
             $table->string('specialization')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->timestamps();
-
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
         });
     }
-    public function departments()
-    {
-        return $this->belongsToMany(Department::class);
-    }
-        // Define the relationship with Course
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class);
-    }
+
     public function down()
     {
         Schema::dropIfExists('instructors');

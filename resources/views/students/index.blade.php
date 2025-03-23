@@ -14,7 +14,7 @@
                     <select name="course" class="form-control">
                         <option value="">Filter by Course</option>
                         @foreach($courses as $course)
-                            <option value="{{ $course->id }}" 
+                            <option value="{{ $course->id }}"
                                 {{ request('course') == $course->id ? 'selected' : '' }}>
                                 {{ $course->name }}
                             </option>
@@ -41,8 +41,6 @@
                 <th>Courses</th>
                 <th>Balance Due</th>
                 <th>Register to Course</th>
-                <!-- <th>Total Cost</th>
-                <th>Paid</th> -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -58,40 +56,39 @@
                     <a href="{{ route('students.show', $student->id) }}" style="display: block; width: 100%; height: 100%; text-decoration: none; color: inherit;">
                         {{ $student->email }}
                     </a>
-                 </td>  
+                 </td>
                  <td>
                     <a href="{{ route('students.show', $student->id) }}" style="display: block; width: 100%; height: 100%; text-decoration: none; color: inherit;">
                         {{ $student->phone_number }}
                     </a>
-                 </td>                      <td>
+                 </td>
+                <td>
                         @if ($student->courses->isEmpty())
                             <span class="text-muted">No courses assigned</span>
                         @else
                             @php $totalCost = 0; @endphp
                                  @foreach ($student->courses as $course)
-                                <span class="badge bg-info">{{ $course->name }} 
+                                <span class="badge bg-info">{{ $course->name }}
                                     <!-- - ${{ number_format($course->cost, 2) }} -->
-                                </span>  
-                                @php $totalCost += $course->cost; @endphp                                                          
+                                </span>
+                                @php $totalCost += $course->cost; @endphp
                                 @endforeach
                                 <span class="badge bg-info">Total: ${{ number_format($totalCost, 2) }}  </span>
                                 <!-- <strong>Total: ${{ number_format($totalCost, 2) }}</strong> -->
                         @endif
-                    </td>
+                </td>
                     <td>
                     <span class="badge {{ $student->remaining_balance > 0 ? 'bg-info-red' : 'bg-info' }}">
                         ${{ number_format($student->remaining_balance, 2) }}
-                    </span>  
+                    </span>
                     </td>
                     <td>
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#registerCourseModal-{{ $student->id }}">
                             Register to Course
                         </button>
                     </td>
-                    <!-- <td>${{ number_format($student->total_course_cost, 2) }}</td>
-                    <td>${{ number_format($student->total_paid, 2) }}</td> -->
                     <td>
-                        <a href="{{ route('students.show', $student->id) }}" class="btn btn-info btn-sm">View</a> 
+                        <a href="{{ route('students.show', $student->id) }}" class="btn btn-info btn-sm">View</a>
                         <!-- <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning btn-sm">Edit</a> -->
                         <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
                             @csrf
@@ -103,7 +100,7 @@
                     </td>
                 </tr>
 
-                
+
                         <!-- Register Course Modal -->
                         <div class="modal fade" id="registerCourseModal-{{ $student->id }}" tabindex="-1" aria-labelledby="registerCourseModalLabel-{{ $student->id }}" aria-hidden="true">
                             <div class="modal-dialog">

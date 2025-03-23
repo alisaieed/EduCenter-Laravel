@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('content')
 <form action="{{ route('departments.store') }}" method="POST">
     @csrf  <!-- Laravel security token -->
 
@@ -41,3 +41,5 @@
 
     <button type="submit" class="btn btn-success">Create Department</button>
 </form>
+
+@endsection

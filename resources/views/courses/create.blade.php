@@ -17,16 +17,22 @@
         <textarea name="description" id="description" class="form-control" required></textarea>
     </div>
 
+    <!-- Course Cost Field -->
+    <div class="form-group">
+        <label for="cost">Course Cost</label>
+        <input type="number" name="cost" id="cost" class="form-control" required></input>
+    </div>
+
     <!-- Instructor Field -->
     <div class="form-group">
         <label>Instructor</label>
         @foreach($instructors as $instructor)
             <div class="form-check">
-                <input 
-                    type="checkbox" 
-                    name="instructor_ids[]" 
-                    value="{{ $instructor->id }}" 
-                    id="instructor_{{ $instructor->id }}" 
+                <input
+                    type="checkbox"
+                    name="instructor_ids[]"
+                    value="{{ $instructor->id }}"
+                    id="instructor_{{ $instructor->id }}"
                     class="form-check-input"
                     {{ in_array($instructor->id, old('instructor_ids', [])) ? 'checked' : '' }}>
                 <label class="form-check-label" for="instructor_{{ $instructor->id }}">

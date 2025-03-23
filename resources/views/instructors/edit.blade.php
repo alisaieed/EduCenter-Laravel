@@ -39,9 +39,10 @@
                 @foreach($instructor->departments as $department)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{ $department->name }}
-                        <form action="{{ route('instructors.unassignDepartment', [$instructor->id, $department->id]) }}" method="POST">
+                        <form action="{{ route('instructors.unassignDepartment', $instructor) }}" method="POST">
                             @csrf
                             @method('DELETE')
+                            <input type="hidden" name="department_id" value="{{ $department->id }}">
                             <button type="submit" class="btn btn-danger btn-sm">Unassign</button>
                         </form>
                     </li>
@@ -49,7 +50,7 @@
             </ul>
         </div>
 
-        <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#assignDepartmentModal">
+        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#assignDepartmentModal">
             Assign to Department
         </button>
 
@@ -69,7 +70,7 @@
             </ul>
         </div>
 
-        <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#assignCourseModal">
+        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#assignCourseModal">
             Assign to Course
         </button>
 

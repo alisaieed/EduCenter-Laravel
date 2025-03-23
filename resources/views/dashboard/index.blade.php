@@ -5,7 +5,7 @@
         <h1 class="mb-4">Dashboard</h1>
 
 
-        
+
         <!-- Summary Cards -->
         <div class="row">
             <div class="col-md-4">
@@ -90,63 +90,6 @@
         }
     });
 </script>
-
-<div class="row">
-        <!-- Students -->
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Students</h5>
-                    <p class="card-text">Total: {{ $totalStudents }}</p>
-                    <a href="{{ route('students.index') }}" class="btn btn-primary btn1">View Students</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Courses -->
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Courses</h5>
-                    <p class="card-text">Total: {{ $totalCourses }}</p>
-                    <a href="{{ route('courses.index') }}" class="btn btn-primary btn2">View Courses</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Instructors -->
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Instructors</h5>
-                    <p class="card-text">Total: {{ $totalInstructors }}</p>
-                    <a href="{{ route('instructors.index') }}" class="btn btn btn-primary btn3">View Instructors</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <!-- Departments -->
-        <div class="col-md-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Departments</h5>
-                    <a href="{{ route('departments.index') }}" class="btn btn btn-primary btn4">View Departments</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Certificates -->
-        <div class="col-md-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Certificates</h5>
-                    <a href="{{ route('certificates.index') }}" class="btn btn btn-primary btn5">View Certificates</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 @endsection

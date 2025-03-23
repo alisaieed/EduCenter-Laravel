@@ -9,11 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 
 
-Route::resource('students', StudentController::class);
-Route::resource('instructors', InstructorController::class);
-Route::resource('courses', CourseController::class);
-Route::resource('departments', DepartmentController::class);
-Route::resource('certificates', CertificateController::class);
+
 Route::get('students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
 
 Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
@@ -24,9 +20,13 @@ Route::post('/payments', [PaymentController::class, 'store'])->name('payments.st
 Route::delete('students/{student}/remove-course/{course}', [StudentController::class, 'removeCourse'])->name('students.removeCourse');
 Route::post('/payments/{id}/refund', [PaymentController::class, 'refund'])->name('payments.refund');
 Route::post('/instructors/{instructor}/assign-department', [InstructorController::class, 'assignDepartment'])->name('instructors.assignDepartment');
-Route::delete('/instructors/{instructor}/unassign-department/{department}', [InstructorController::class, 'unassignDepartment'])->name('instructors.unassignDepartment');
-Route::post('/instructors/{instructor}/assign-course', [InstructorController::class, 'assignCourse'])
-    ->name('instructors.assignCourse');
-
-Route::delete('/instructors/{instructor}/unassign-course/{course}', [InstructorController::class, 'unassignCourse'])
-    ->name('instructors.unassignCourse');
+Route::delete('/instructors/{instructor}/unassign-department', [InstructorController::class, 'unassignDepartment'])->name('instructors.unassignDepartment');
+Route::post('/instructors/{instructor}/assign-course', [InstructorController::class, 'assignCourse'])->name('instructors.assignCourse');
+Route::delete('/instructors/{instructor}/unassign-course/{course}', [InstructorController::class, 'unassignCourse'])->name('instructors.unassignCourse');
+Route::post('/departments/{department}/assign-instructor', [DepartmentController::class, 'assignInstructor'])->name('departments.assignInstructor');
+Route::delete('/departments/{department}/unassign-instructor', [DepartmentController::class, 'unassignInstructor'])->name('departments.unassignInstructor');
+Route::resource('students', StudentController::class);
+Route::resource('instructors', InstructorController::class);
+Route::resource('courses', CourseController::class);
+Route::resource('departments', DepartmentController::class);
+Route::resource('certificates', CertificateController::class);

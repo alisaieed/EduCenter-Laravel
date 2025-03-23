@@ -17,10 +17,7 @@ return new class extends Migration {
             $table->timestamps();
         });
     }
-    public function certificates()
-    {
-        return $this->belongsToMany(Certificate::class);
-    }
+
     public function down()
     {
         Schema::dropIfExists('students');

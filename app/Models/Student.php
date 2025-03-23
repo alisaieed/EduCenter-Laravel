@@ -30,12 +30,12 @@ class Student extends Model
         $this->total_course_cost = $this->courses->sum('cost');
         $this->save();
     }
-    
+
 
     // public function getRemainingBalanceAttribute() {
     //     return $this->total_course_cost - $this->amount_paid;
     // }
-    
+
     public function getRemainingBalanceAttribute()
     {
         $totalPaid = $this->payments()->sum('amount');  // Sum of all payments (including refunds)
@@ -47,5 +47,10 @@ class Student extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class);
+    }
+
+    public function certificates()
+    {
+        return $this->belongsToMany(Certificate::class);
     }
 }

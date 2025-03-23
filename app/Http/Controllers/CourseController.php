@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class CourseController extends Controller
 {
-    
+
 // CoursesController.php
 
 
@@ -50,20 +50,20 @@ class CourseController extends Controller
         $request->validate([
             'name' => 'required',
             'cost' => 'required',
-            'description' => 'required',
+            'description' => 'nullable',
             'department_id' => 'required|exists:departments,id',
             'instructor_ids' => 'required|array',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'certificate_id' => 'nullable|exists:certificates,id'
         ]);
-    
+
         // Create the course
         $course = Course::create($request->all());
-    
+
         // Attach instructors (many-to-many relationship)
         $course->instructors()->sync($request->instructor_ids);
-    
+
         return redirect()->route('courses.index')->with('success', 'Course created successfully!');
     }
 
@@ -87,9 +87,6 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $course = Course::findOrFail($id);
-        $student->updateTotalCourseCost(); // Update total cost
-        $student->getRemainingBalanceAttribute();
-        
         // Validate the data
         $request->validate([
             'name' => 'required',
@@ -101,7 +98,7 @@ class CourseController extends Controller
             'end_date' => 'required|date',
             'certificate_id' => 'nullable|exists:certificates,id',
         ]);
-    
+
         // Update the course details
         $course->update([
             'name' => $request->name,
@@ -113,14 +110,14 @@ class CourseController extends Controller
             'end_date' => $request->end_date,
             'certificate_id' => $request->certificate_id,
         ]);
-    
+
         // Update the instructors
         $course->instructors()->sync($request->instructors);
-    
+
         // Redirect to the courses index page with a success message
         return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
     }
-    
+
 
     public function destroy(Course $course)
     {

@@ -11,10 +11,11 @@ class Instructor extends Model
 
     // Add the fields you want to mass-assign here
     protected $fillable = [
-        'name',        // The name field
-        'email',       // The email field
-        'phone',       // The phone field
-        'departments', // The department_id field
+        'name',
+        'email',
+        'phone',
+        'specialization',
+        'departments',
     ];
 
     // Define the relationship with courses
@@ -28,5 +29,5 @@ class Instructor extends Model
     {
         return $this->belongsToMany(Department::class);
     }
-    
+
 }

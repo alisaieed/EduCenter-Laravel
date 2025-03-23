@@ -25,5 +25,7 @@ class Department extends Model
     {
         return $this->hasMany(Course::class);
     }
-    
+
+
+
 }

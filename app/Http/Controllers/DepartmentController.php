@@ -9,6 +9,31 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
+
+    public function assignInstructor(Request $request, Department $department)
+    {
+        $request->validate([
+            'instructor_id' => 'required|exists:instructors,id',
+        ]);
+
+        // Attach instructor if not already assigned
+        if (!$department->instructors()->where('instructors.id', $request->instructor_id)->exists()) {
+            $department->instructors()->attach($request->instructor_id);
+        }
+
+        return redirect()->back()->with('success', 'Instructor assigned to department successfully.');
+    }
+
+    public function unassignInstructor(Request $request, Department $department)
+    {
+        $request->validate([
+            'instructor_id' => 'required|exists:instructors,id',
+        ]);
+
+        $department->instructors()->detach($request->instructor_id);
+
+        return redirect()->back()->with('success', 'Instructor unassigned from department successfully.');
+    }
     public function update(Request $request, $id)
     {
         $department = Department::findOrFail($id);
@@ -45,11 +70,11 @@ class DepartmentController extends Controller
     {
         $department = Department::with('instructors')->findOrFail($id);
         $instructors = Instructor::all(); // Fetch all instructors
-    
+
         return view('departments.edit', compact('department', 'instructors'));
     }
-    
-    
+
+
     // Show the form to create a new department
     public function create()
     {
@@ -67,7 +92,7 @@ class DepartmentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'head_instructor_id' => 'required|exists:instructors,id',
+            'head_instructor_id' => 'nullable|exists:instructors,id',
             'instructors' => 'nullable|array',
             'instructors.*' => 'exists:instructors,id',
         ]);
@@ -90,7 +115,7 @@ class DepartmentController extends Controller
     {
         $department = Department::with('instructors')->findOrFail($id);
         $instructors = Instructor::all(); // Fetch all instructors
-    
+
         return view('departments.show', compact('department', 'instructors'));
     }
 
@@ -102,7 +127,7 @@ class DepartmentController extends Controller
          return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
       }
 
-    
-    
+
+
 
 }
