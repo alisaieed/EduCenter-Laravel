@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-4">
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="container mt-4">
                 <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h2>Department Details</h2>
+                        <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     </div>
                     <div class="card-body">
                         <div class="mb-4">
                             <h4><strong>Department Name:</strong> {{ $department->name }}</h4>
-                            <p><strong>Code:</strong> {{ $department->code }}</p>
                             <p><strong>Description:</strong> {{ $department->description }}</p>
                         </div>
 
                         <div class="mb-4">
-                            <h4><strong>Head of Department:</strong> {{ $department->headOfDepartment->name ?? 'N/A' }}</h4>
+                            <h4><strong>Head of Department:</strong> {{ $department->headinstructor->name ?? 'N/A' }}</h4>
                             @if ($department->headOfDepartment)
                                 <p><strong>Email:</strong> {{ $department->headOfDepartment->email }}</p>
                                 <p><strong>Phone:</strong> {{ $department->headOfDepartment->phone ?? 'N/A' }}</p>
@@ -35,11 +35,6 @@
                                     <p>No instructors assigned to this department.</p>
                                 @endforelse
                             </ul>
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-warning">Edit Department</a>
-                            <a href="{{ route('departments.index') }}" class="btn btn-secondary">Back to List</a>
                         </div>
                     </div>
                 </div>
